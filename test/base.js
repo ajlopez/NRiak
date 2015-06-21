@@ -40,3 +40,38 @@ exports['store and fetch value'] = function (test) {
     .run();
 };
 
+exports['store, remove and fetch value'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        base.store({ bucket: 'bucket1', key: 'john', value: { name: 'John', age: 100 } }, next);
+    })
+    .then(function (data, next) {
+        base.fetch({ bucket: 'bucket1', key: 'john' }, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        var obj = data[0];
+        test.equal(obj.name, 'John');
+        test.equal(obj.age, 100);
+        base.remove({ bucket: 'bucket1', key: 'john' }, next);
+    })
+    .then(function (data, next) {
+        base.fetch({ bucket: 'bucket1', key: 'john' }, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 0);
+        test.done();
+    })
+    .fail(function (err) {
+        test.fail(err);
+    })
+    .run();
+};
+
+
