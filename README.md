@@ -9,6 +9,7 @@ TBD
 ## References
 
 - [Riak HTTP API](http://docs.basho.com/riak/latest/dev/references/http/)
+- [node-riak-mock A mock library that simulates a running Riak cluster](https://github.com/mtabini/node-riak-mock)
 
 ## Contribution
 
