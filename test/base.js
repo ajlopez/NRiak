@@ -34,9 +34,6 @@ exports['store and fetch value'] = function (test) {
         test.equal(obj.age, 800);
         test.done();
     })
-    .fail(function (err) {
-        test.fail(err);
-    })
     .run();
 };
 
