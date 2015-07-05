@@ -1,6 +1,7 @@
 
 var buckets = require('../lib/buckets');
 var async = require('simpleasync');
+var sl = require('simplelists');
 
 var bucket;
 
@@ -98,6 +99,34 @@ exports['store, remove and fetch value'] = function (test) {
     })
     .fail(function (err) {
         test.fail(err);
+    })
+    .run();
+};
+
+exports['store and query values'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        bucket.store({ key: 'eve', value: { name: 'Eve', age: 700 } }, next);
+    })
+    .then(function (data, next) {
+        bucket.store({ key: 'caine', value: { name: 'Caine', age: 600 } }, next);
+    })
+    .then(function (data, next) {
+        bucket.store({ key: 'abel', value: { name: 'Abel', age: 500 } }, next);
+    })    
+    .then(function (data, next) {
+        bucket.find({ }, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(data.length, 5);
+        test.ok(sl.exist(data, { name: 'Adam', age: 800 }));
+        test.ok(sl.exist(data, { name: 'Eve', age: 700 }));
+        test.ok(sl.exist(data, { name: 'Caine', age: 600 }));
+        test.ok(sl.exist(data, { name: 'Abel', age: 500 }));
+        test.done();
     })
     .run();
 };
